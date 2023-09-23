@@ -1,0 +1,36 @@
+{
+  "countryCode": {
+    "US": 1, "Canada": 19,
+    "United Kingdom": 44, "Australia": 61,
+    "Germany": 49, "France": 33, "Japan": 81,
+    "Brazil": 55, "India": 91, "China": 86},
+  "telNumbers": [
+    "Ivan",       "Petrov",     "Maria",        "Sidorova",   "Vasyl", "Kovalenko",  "Olena",      "Lysenko",      "Andrii",     "Kozlov",
+    "Nataliia",   "Moroz",      "Mykhailo",     "Pavlenko",   "Sofia", "Shevchenko", "Yurii",      "Zaitsiv",      "Tetiana",    "Kravchenko",
+    "Oleh",       "Honchar",    "Iryna",        "Kuzmenko",   "Serhii", "Boiko",      "Anna",       "Doroshenko",   "Dmytro",     "Hryhorenko",
+    "Liudmyla",   "Tkachenko",  "Roman",        "Savchenko",  "Kateryna", "Levchenko",  "Vitalii",    "Rudenko",      "Yevhen",     "Melnyk",
+    "Olha",       "Fedorenko",  "Pavlo",        "Shevtsov",   "Halyna", "Mazur",      "Artem",      "Korol",        "Larysa",     "Myronenko",
+    "Ihor",       "Shapoval",   "Tetiana",      "Polyakova",  "Ruslan", "Serhiienko", "Alla",       "Kotsiubynska", "Yaroslav",   "Onopko",
+    "Lidiia",     "Bondarenko", "Volodymyr",    "Frolov",     "Nina", "Hrytsenko",  "Andrii",     "Panchenko",    "Oksana",     "Tereshchenko",
+    "Anatolii",   "Havryliuk",  "Maryna",       "Martynenko", "Serhii", "Lys",        "Tamara",     "Popova",       "Vladyslav",  "Bilous",
+    "Liubov",     "Kostenko",   "Viktor",       "Semenov",    "Nina", "Bilenka",    "Oleksii",    "Riabokon",
+  "Hans", "Müller", "Anna", "Schmidt", "Michael", "Schneider", "Maria", "Fischer",
+  "Thomas", "Weber", "Andrea", "Meyer", "Martin", "Wagner", "Susanne", "Becker",
+  "Christian", "Schulz",  "Ursula", "Hoffmann", "Stefan", "Schäfer", "Petra", "Koch", "Sebastian", "Bauer",
+  "Monika", "Richter", "Markus", "Klein", "Sabine", "Wolf", "Patrick", "Neumann", "Silke", "Schwarz",
+  "Alexander", "Zimmermann", "Kathrin", "Braun", "Daniel", "Krüger", "Melanie", "Hofmann", "Jürgen", "Schmitt", "Barbara", "Werner",
+  "Tobias", "Lange", "Anja", "Schmid", "Nico", "Krause", "Tanja", "Vogel",
+  "Oliver", "Stein", "Janine", "Otto", "Max", "Günther", "Jasmin", "Berger",
+  "Sven", "Arnold", "Laura", "Peters", "Florian", "Huber", "Nina", "Walter",
+  "Juan",      "Garcia",    "Maria",   "Rodriguez", "Manuel",    "Martinez",  "Laura",   "Fernandez",
+  "Antonio",   "Lopez",     "Isabel",  "Sanchez",   "Francisco", "Torres",    "Ana",     "Perez",    
+  "David",     "Ramirez",   "Sofia",   "Gonzalez",  "Pedro",     "Diaz",      "Luisa",   "Romero",   
+  "Miguel",    "Castro",    "Elena",   "Ruiz", "Rafael",    "Hernandez", "Carmen",  "Navarro",
+  "Diego",     "Jimenez",   "Natalia", "Morales", "Carlos",    "Ortega",    "Raquel",  "Vega",
+  "Javier",    "Martin",    "Beatriz", "Guerrero", "Jose",      "Morales",   "Adriana", "Medina",
+  "Roberto",   "Vargas",    "Lourdes", "Leon", "Gabriel",   "Soto",      "Silvia",  "Rios",
+  "John", "Jane", "Michael", "Emily", "William", "Olivia", "James", "Sophia",
+  "Smith", "Johnson", "Brown", "Williams", "Jones", "Miller", "Davis", "Garcia",
+  "Pablo",     "Castro",    "Marta",   "Navarro"
+]
+}
