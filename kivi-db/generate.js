@@ -5,10 +5,10 @@ const config = require('./config.json');
 // BUILD DATA GENERATOR FOR FILL KEY-VALUE DB
 const COUNTRY_CODE = config.countryCode;
 const NAMES = config.telNumbers;
-const QTY = 30000; // max: 3 000 000 // optimal: 500000
+const QTY = 1000; // max: 3 000 000 // optimal: 500000
 const STORAGE = 'storage.txt';
 // console.log(config);
-
+// node .\drawwork.js READ FROM Canada
 
 function generateRanKit(length) {
     if (length <= 0)  throw new Error("Length must be greater than 0");

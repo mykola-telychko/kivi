@@ -5,7 +5,7 @@ const dbFilePath = path.join(__dirname, 'storage.txt');
 
 const config = require('./config.json');
 const COUNTRY_CODE = config.countryCode;
-
+const STORAGE_UPDATE = 'upstorage.txt';
 
 // Check if at least one command-line argument is provided
 if (process.argv.length < 3) {
@@ -57,7 +57,19 @@ function handeQuery(query){
   }
 }
 // node .\drawwork.js SELECT FROM 'canada'
-
+// function insertToDB(database) {
+function updateToDB(database) {
+  let validData = true;
+  if ( validData ) {
+      let txt = database;
+      fs.writeFile(STORAGE_UPDATE, txt, {encoding: "utf8", flag: "w", mode: 0o666},
+          (err) => {
+              if (err) console.log(err);
+              else { console.log("written"); }
+          }
+      );
+  }
+}
 
 function readDbJSON(callback) {
   fs.readFile(dbFilePath, 'utf8', (err, data) => {
@@ -74,44 +86,57 @@ function readDbJSON(callback) {
           // https://github.com/mykola-telychko/assistant-js
            dbTXT = parseTxt(data); 
 
-           
-           callback(dbTXT);// get variable outer ,
+           let u = 'PetraDiazKotsiubynska';
+          //  let u = '+811590117571';
+          //  let u = 'sd';
+
+          // let usrItem = selectName(u, 'value', dbTXT);
+          let usrItem = selectName(u, 'key', dbTXT);
+
+            // regexp for detected name or number -updateObjectItem
+          // updateObjectItem(dbTXT, Object.keys(usrItem)[0], 'zelupa');
+          updateObjectItem(kv, dbTXT, '+914763000853', '+914763111853');
+
+
+          callback(dbTXT);// get variable outer ,
 
           //  console.log('txt::', dbTXT);
        } catch (parseError) { console.error('Error parsing JSON:', parseError); }
-       // console.log('data::', dbJSON);
   });
    return dbTXT;
 }
 // readDbJSON((database) => { insertTxtDB(database); return database;} );
-readDbJSON((database) => { console.log(database); return database;} );
-
-function parseTxt(txt){
-  let arr = txt.split("|");
-  const [evenArr, oddArr] = explodeArray(arr);
-
- let code = handeQuery(queryArray);
+// readDbJSON((database) => { console.log(database); return database;} );
+readDbJSON((database) => { return database;} );
 
 
-  const matchingElements = oddArr.filter(item => item.startsWith("+" + code));
+function parseTxt(txt) {
+    let arr = txt.split("|");
+    const [evenArr, oddArr] = explodeArray(arr);
+    let code = handeQuery(queryArray);
 
-  console.log('code', matchingElements);
+    let objectUsrTeleph = buildObjfromArrays(evenArr, oddArr);
 
-  return ;
+    // fetch region 
+    // const matchingElements = oddArr.filter(item => item.startsWith("+" + code));
+
+    // console.log('code', Object.keys(objectUsrTeleph));
+
+    return objectUsrTeleph;
 }
 
 function explodeArray(srcArr) {
-  const evenArr = [];
-  const oddArr = [];
+      const evenArr = [];
+      const oddArr = [];
 
-  for (let i = 0; i < srcArr.length; i++) {
-    if (i % 2 === 0) {
-      evenArr.push(srcArr[i]);
-    } else {
-      oddArr.push(srcArr[i]);
-    }
-  }
-  return [evenArr, oddArr];
+      for (let i = 0; i < srcArr.length; i++) {
+        if (i % 2 === 0) {
+          evenArr.push(srcArr[i]);
+        } else {
+          oddArr.push(srcArr[i]);
+        }
+      }
+      return [evenArr, oddArr];
 }
 
 // const [evenArr, oddArr] = explodeArray(arr0);
@@ -121,4 +146,63 @@ function explodeArray(srcArr) {
 // HELPERS 
 function capitalizeFirstLetter(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+function buildTable(keys, values){
+  const tableData = [];
+  for (let i = 0; i < Math.max(keys.length, values.length); i++) {
+    tableData.push({ Column1: keys[i], Column2: values[i] });
+  }
+  return tableData;
+}
+function buildObjfromArrays(keys, values){
+  return  keys.reduce((acc, key, index) => {
+    acc[key] = values[index];
+    return acc;
+  }, {});
+}
+
+// QUERIES LIST 
+function selectName(item, kv, object){
+  // console.log('selectName::', item, kv, object);
+  let obj = object;
+  const result = {};
+
+  if ( kv == 'key' ) {
+    for ( const key in obj ) {
+      if (key === item) { result[key] = obj[key]; }
+    }
+  } 
+  else if ( kv == 'value' ) {
+    for ( const key in obj ) {
+      if (obj[key] === item) { result[key] = obj[key]; }
+    }
+  }
+  if ( Object.keys(result).length > 0 ) {
+        let item;
+        if ( kv == 'key' ) {
+            item = Object.keys(result)[0];
+        } else if ( kv == 'value' ) {
+            item = Object.values(result)[0];
+        }
+        // get ID 
+        // console.log('val::', item);
+  }
+  // console.table(buildTable(Object.keys(result),
+  //                          Object.values(result)));
+  // console.log('val::', result);
+
+  return result;
+}
+
+function updateObjectItem(kv, obj, targetKeyOrValue, newValue) {
+  console.log(obj, targetKeyOrValue, newValue);
+  for (const key in obj) {
+    if (key === targetKeyOrValue || obj[key] === targetKeyOrValue) {
+      obj[key] = newValue; 
+    }
+  }
+
+  updateToDB(JSON.stringify(obj));
+
+  return obj;
 }
