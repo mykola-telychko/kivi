@@ -43,7 +43,8 @@ function handeQuery(query, oddArr){
       console.log("It's Tuesday.");
       break;
     case "DELETE":
-      console.log("It's Wednesday.");
+      const ma = findRemove(query);
+
       break;
     case "UPDATE":
       console.log("It's almost the weekend!");
@@ -91,7 +92,7 @@ function readDbJSON(callback) {
 // get only REGION nums 
 // All-data -> apply query -> result obj 
 console.log('simpleSelectRegion::', handeQuery(queryArray, obj3Level));
-
+// handeQuery(queryArray, obj3Level)
 
           callback(dbTXT);// get variable outer ,
           //  console.log('txt::', dbTXT);
@@ -134,8 +135,7 @@ function explodeArray(srcArr) {
       return [evenArr, oddArr];
 }
 
-// const [evenArr, oddArr] = explodeArray(arrNonUniqueElements);
-// console.log(oddArr);
+
 
 // HELPERS 
 function capitalizeFirstLetter(str) {
@@ -166,8 +166,16 @@ function getKeysByValue(obj, targetValue) {
 function filterObjectByValuePrefix(obj, prefix) {
   const filteredObj = {};
   for (const key in obj) {
-    if (obj.hasOwnProperty(key) && obj[key].startsWith(prefix)) {
-      filteredObj[key] = obj[key];
+    if(prefix !== '+1'){
+            if ( obj.hasOwnProperty(key) && 
+                obj[key].startsWith(prefix) ) {
+                filteredObj[key] = obj[key];
+            }
+    } else {
+            if ( obj.hasOwnProperty(key) && 
+            obj[key].startsWith(prefix) && obj[key].length == 12 ) {
+            filteredObj[key] = obj[key];
+            }
     }
   }
   return filteredObj;
@@ -196,22 +204,24 @@ function selectName(item, kv, object){
         } else if ( kv == 'value' ) {
             item = Object.values(result)[0];
         }
-        // get ID 
-        // console.log('val::', item);
   }
   // console.table(buildTable(Object.keys(result),
   //                          Object.values(result)));
-  // console.log('val::', result);
-
   return result;
 }
 
 function selectOnCountry(telNumsArr, codeCountry){
-  // let telNums = telNumsArr.tel.filter(item => item.startsWith("+" + codeCountry));
+  let telNums;
   let prefix = "+" + codeCountry;
-  let telNums = filterObjectByValuePrefix(telNumsArr.main, prefix);
+  telNums = filterObjectByValuePrefix(telNumsArr.main, prefix);
 
   return telNums;
+}
+
+function findRemove(query){
+  console.log("del.", query);
+  // read // find // remove // write-update 
+
 }
 
 
