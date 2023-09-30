@@ -22,24 +22,20 @@ const [, , ... queryArray ] = process.argv;
 
 let dbTXT;
 
-
-
 // console.log('KV:', message1, message2, message3);
 console.log('KV:', queryArray);
 // handeQuery(queryArray);
 
 // get region telephone num 
-function handeQuery(query){
-  COUNTRY_CODE
+function handeQuery(query, oddArr){
 
   switch (query[0]) {
     case "READ":
-      // let per =  readDbJSON((database) => {  return database;} );
-
+      //  readDbJSON((database) => {  return database;} );
+      let code = COUNTRY_CODE[capitalizeFirstLetter(query[query.length - 1])];
       // get country code NUM on countryName 
-      // console.log("It.", COUNTRY_CODE[capitalizeFirstLetter(query[query.length - 1])] );
-      // console.log("db.", per)
-      return COUNTRY_CODE[capitalizeFirstLetter(query[query.length - 1])];
+      const matchingElements = selectOnCountry(oddArr, code);
+      return matchingElements;
       // read from db 
 
       break;
@@ -80,26 +76,24 @@ function readDbJSON(callback) {
 
        try {
           //  dbJSON = JSON.parse(data); callback(dbJSON);
-          // handeQuery(queryArray);
 
-          //  dbTXT = parseTxt(data); 
           // https://github.com/mykola-telychko/assistant-js
-           dbTXT = parseTxt(data); 
+           obj3Level = parseTxt(data); 
 
            let u = 'PetraDiazKotsiubynska';
-          //  let u = '+811590117571';
-          //  let u = 'sd';
-
           // let usrItem = selectName(u, 'value', dbTXT);
-          let usrItem = selectName(u, 'key', dbTXT);
+          let usrItem = selectName(u, 'key', obj3Level.main);
 
-            // regexp for detected name or number -updateObjectItem
+          // regexp for detected name or number -updateObjectItem
           // updateObjectItem(dbTXT, Object.keys(usrItem)[0], 'zelupa');
-          updateObjectItem(kv, dbTXT, '+914763000853', '+914763111853');
+          // updateObjectItem(kv, dbTXT, '+914763000853', '+914763111853');
+          // updateObjectItem('changeTelOnName', dbTXT, u, '+914311111113');
+// get only REGION nums 
+// All-data -> apply query -> result obj 
+console.log('simpleSelectRegion::', handeQuery(queryArray, obj3Level));
 
 
           callback(dbTXT);// get variable outer ,
-
           //  console.log('txt::', dbTXT);
        } catch (parseError) { console.error('Error parsing JSON:', parseError); }
   });
@@ -107,22 +101,23 @@ function readDbJSON(callback) {
 }
 // readDbJSON((database) => { insertTxtDB(database); return database;} );
 // readDbJSON((database) => { console.log(database); return database;} );
-readDbJSON((database) => { return database;} );
+// readDbJSON((database) => { return database;} ); // +++
+let mod;
+     mod = 'select';
+if ( mod == 'select' ) {
+  readDbJSON((database) => {  return database;} );
+
+}
 
 
+// txt -> obj //
 function parseTxt(txt) {
     let arr = txt.split("|");
     const [evenArr, oddArr] = explodeArray(arr);
-    let code = handeQuery(queryArray);
+    // console.log( handeQuery(queryArray, oddArr));
 
-    let objectUsrTeleph = buildObjfromArrays(evenArr, oddArr);
-
-    // fetch region 
-    // const matchingElements = oddArr.filter(item => item.startsWith("+" + code));
-
-    // console.log('code', Object.keys(objectUsrTeleph));
-
-    return objectUsrTeleph;
+    let objUsrTeleph = buildObjfromArrays(evenArr, oddArr);
+    return {main: objUsrTeleph, usr: evenArr, tel: oddArr};// finally obj 
 }
 
 function explodeArray(srcArr) {
@@ -139,7 +134,6 @@ function explodeArray(srcArr) {
       return [evenArr, oddArr];
 }
 
-// const [evenArr, oddArr] = explodeArray(arr0);
 // const [evenArr, oddArr] = explodeArray(arrNonUniqueElements);
 // console.log(oddArr);
 
@@ -159,6 +153,24 @@ function buildObjfromArrays(keys, values){
     acc[key] = values[index];
     return acc;
   }, {});
+}
+function getKeysByValue(obj, targetValue) {
+  const keys = [];
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key) && obj[key] === targetValue) {
+      keys.push(key);
+    }
+  }
+  return keys;
+}
+function filterObjectByValuePrefix(obj, prefix) {
+  const filteredObj = {};
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key) && obj[key].startsWith(prefix)) {
+      filteredObj[key] = obj[key];
+    }
+  }
+  return filteredObj;
 }
 
 // QUERIES LIST 
@@ -194,15 +206,27 @@ function selectName(item, kv, object){
   return result;
 }
 
-function updateObjectItem(kv, obj, targetKeyOrValue, newValue) {
-  console.log(obj, targetKeyOrValue, newValue);
-  for (const key in obj) {
-    if (key === targetKeyOrValue || obj[key] === targetKeyOrValue) {
-      obj[key] = newValue; 
+function selectOnCountry(telNumsArr, codeCountry){
+  // let telNums = telNumsArr.tel.filter(item => item.startsWith("+" + codeCountry));
+  let prefix = "+" + codeCountry;
+  let telNums = filterObjectByValuePrefix(telNumsArr.main, prefix);
+
+  return telNums;
+}
+
+
+function updateObjectItem(kvMod, obj, targetKeyOrValue, newValue) {
+  // console.log(obj, targetKeyOrValue, newValue);
+ if ( kvMod == 'changeTelOnName' ) {
+    for (const key in obj) {
+      if (key === targetKeyOrValue || obj[key] === targetKeyOrValue) {
+        obj[key] = newValue; 
+      }
     }
-  }
+ } else {console.log('error kvMod');}
+
+  console.log(newValue);
 
   updateToDB(JSON.stringify(obj));
-
   return obj;
 }
