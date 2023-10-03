@@ -6,6 +6,7 @@ const dbFilePath = path.join(__dirname, 'storage.txt');
 const config = require('./config.json');
 const COUNTRY_CODE = config.countryCode;
 const STORAGE_UPDATE = 'upstorage.txt';
+const STORAGE_MAIN_PIPE = 'storage.txt';
 
 // Check if at least one command-line argument is provided
 if (process.argv.length < 3) {
@@ -23,18 +24,18 @@ const [, , ... queryArray ] = process.argv;
 let dbTXT;
 
 // console.log('KV:', message1, message2, message3);
-console.log('KV:', queryArray);
+// console.log('KV:', queryArray);
 // handeQuery(queryArray);
 
 // get region telephone num 
-function handeQuery(query, oddArr){
+function handeQuery(query, allItems){
 
   switch (query[0]) {
     case "READ":
       //  readDbJSON((database) => {  return database;} );
       let code = COUNTRY_CODE[capitalizeFirstLetter(query[query.length - 1])];
       // get country code NUM on countryName 
-      const matchingElements = selectOnCountry(oddArr, code);
+      const matchingElements = selectOnCountry(allItems, code);
       return matchingElements;
       // read from db 
 
@@ -43,7 +44,7 @@ function handeQuery(query, oddArr){
       console.log("It's Tuesday.");
       break;
     case "DELETE":
-      const ma = findRemove(query);
+      const ma = findRemove(allItems, query[1]);
 
       break;
     case "UPDATE":
@@ -55,14 +56,14 @@ function handeQuery(query, oddArr){
 }
 // node .\drawwork.js SELECT FROM 'canada'
 // function insertToDB(database) {
-function updateToDB(database) {
+function updateToDB(database, db) {
   let validData = true;
   if ( validData ) {
       let txt = database;
-      fs.writeFile(STORAGE_UPDATE, txt, {encoding: "utf8", flag: "w", mode: 0o666},
+      fs.writeFile(db, txt, {encoding: "utf8", flag: "w", mode: 0o666},
           (err) => {
               if (err) console.log(err);
-              else { console.log("written"); }
+              else { console.log("update!"); }
           }
       );
   }
@@ -180,6 +181,17 @@ function filterObjectByValuePrefix(obj, prefix) {
   }
   return filteredObj;
 }
+function objectToStringPipe(obj) {
+  let result = "";
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      result += key + "|" + obj[key] + "|";
+    }
+  }
+  // Remove the trailing "|"
+  result = result.slice(0, -1);
+  return result;
+}
 
 // QUERIES LIST 
 function selectName(item, kv, object){
@@ -218,8 +230,23 @@ function selectOnCountry(telNumsArr, codeCountry){
   return telNums;
 }
 
-function findRemove(query){
-  console.log("del.", query);
+function findRemove(allItem, itm) {
+  // console.log("del.", allItem.main);
+  let names = Object.keys(allItem.main);
+  let all = allItem.main;
+
+  if ( names.includes(itm) ) {
+    
+    delete all[itm];
+    let pipeData = objectToStringPipe(all);
+
+    updateToDB(JSON.stringify(all), STORAGE_UPDATE);
+    updateToDB(pipeData, STORAGE_MAIN_PIPE);
+
+  } else {
+    console.log("else DEL:", allItem);
+  }
+
   // read // find // remove // write-update 
 
 }
@@ -237,6 +264,6 @@ function updateObjectItem(kvMod, obj, targetKeyOrValue, newValue) {
 
   console.log(newValue);
 
-  updateToDB(JSON.stringify(obj));
+  updateToDB(JSON.stringify(obj), STORAGE_UPDATE);
   return obj;
 }
