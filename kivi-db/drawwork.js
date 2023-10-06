@@ -4,6 +4,7 @@ const path = require("path");
 const dbFilePath = path.join(__dirname, 'storage.txt');
 
 const config = require('./config.json');
+// const { log } = require('console');
 const COUNTRY_CODE = config.countryCode;
 const STORAGE_UPDATE = 'upstorage.txt';
 const STORAGE_MAIN_PIPE = 'storage.txt';
@@ -139,6 +140,14 @@ function explodeArray(srcArr) {
 
 
 // HELPERS 
+function deletePropertyByValue(obj, targetValue) {
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key) && obj[key] === targetValue) {
+      delete obj[key];
+    }
+  }
+  return obj;
+}
 function capitalizeFirstLetter(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
@@ -233,19 +242,27 @@ function selectOnCountry(telNumsArr, codeCountry){
 function findRemove(allItem, itm) {
   // console.log("del.", allItem.main);
   let names = Object.keys(allItem.main);
+  let tels = allItem.tel;
   let all = allItem.main;
-
+  let pipeData; 
   if ( names.includes(itm) ) {
     
     delete all[itm];
-    let pipeData = objectToStringPipe(all);
-
+     pipeData = objectToStringPipe(all);
+    // join to update fns to one --
     updateToDB(JSON.stringify(all), STORAGE_UPDATE);
     updateToDB(pipeData, STORAGE_MAIN_PIPE);
 
-  } else {
-    console.log("else DEL:", allItem);
-  }
+  } else if (tels.includes(itm)) {
+      console.log('tel elem', tels, itm)
+
+    all = deletePropertyByValue(all, itm);
+    pipeData = objectToStringPipe(all);
+    // join to update fns to one --
+    updateToDB(JSON.stringify(all), STORAGE_UPDATE);
+    updateToDB(pipeData, STORAGE_MAIN_PIPE);
+
+  } else { console.log('no elem')}
 
   // read // find // remove // write-update 
 
