@@ -41,9 +41,16 @@ function handeQuery(query, allItems){
       // read from db 
 
       break;
-    case "CREATE":
-      console.log("It's Tuesday.");
+
+    // case "CREATE":
+    case "ADD":
+      // allItems
+      query.shift();
+
+      addUser(allItems, query);
+
       break;
+
     case "DELETE":
       const ma = findRemove(allItems, query[1]);
 
@@ -139,7 +146,7 @@ function explodeArray(srcArr) {
 
 
 
-// HELPERS 
+// HELPERS -- start 
 function deletePropertyByValue(obj, targetValue) {
   for (const key in obj) {
     if (obj.hasOwnProperty(key) && obj[key] === targetValue) {
@@ -201,9 +208,22 @@ function objectToStringPipe(obj) {
   result = result.slice(0, -1);
   return result;
 }
+function addNewUsrToList(object, values) {
+  if (values.length === 2) {
+      const [name, phoneNumber] = values;
+      object[name] = phoneNumber;
+  } else {
+      console.error("Invalid input. The values array"+
+      " should contain exactly two elements: name and"+
+      " phoneNumber.");
+  }
+  return object;
+}
+// HELPERS -- end 
 
 // QUERIES LIST 
 function selectName(item, kv, object){
+  
   // console.log('selectName::', item, kv, object);
   let obj = object;
   const result = {};
@@ -229,6 +249,28 @@ function selectName(item, kv, object){
   // console.table(buildTable(Object.keys(result),
   //                          Object.values(result)));
   return result;
+}
+function addUser( allObj, argsArr ) {
+
+  let valid = validateUsrAnsTel(argsArr);
+  
+  if ( valid ) {
+    let lep = addNewUsrToList(allObj.main, argsArr);
+
+  } else {
+      console.error('not valid usr tel');
+  }
+  // validate usr and telnum 
+}
+function validateUsrAnsTel(argsArr){
+  // add to config OBJ with all reg exp 
+  const telNumPattern1 = /^\+\d{11}$/;
+  const telNumPattern2 = /^\+\d{12}$/;
+
+  console.log(telNumPattern1.test(argsArr[1]) ||
+              telNumPattern2.test(argsArr[1]) ); 
+
+  // if(validUsr && validTel) true ;
 }
 
 function selectOnCountry(telNumsArr, codeCountry){
