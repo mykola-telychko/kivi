@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 const fs = require('fs');
 const path = require("path");
-const dbFilePath = path.join(__dirname, 'storage.txt');
+const dbFilePath = path.join(__dirname, '/store/storage.txt');
 
 const config = require('./config.json');
 // const { log } = require('console');
 const COUNTRY_CODE = config.countryCode;
-const STORAGE_UPDATE = 'upstorage.txt';
-const STORAGE_MAIN_PIPE = 'storage.txt';
+const STORAGE_UPDATE = path.join(__dirname, '/store/upstorage.txt');
+const STORAGE_MAIN_PIPE = path.join(__dirname, '/store/storage.txt');
 
 // Check if at least one command-line argument is provided
 if (process.argv.length < 3) {
@@ -39,39 +39,46 @@ function handeQuery(query, allItems){
       const matchingElements = selectOnCountry(allItems, code);
       return matchingElements;
       // read from db 
-
       break;
 
     // case "CREATE":
     case "ADD":
-      // allItems
       query.shift();
-
       addUser(allItems, query);
-
       break;
 
     case "DELETE":
-      const ma = findRemove(allItems, query[1]);
+      // validate query here or upper 
+      const delRes = findRemove(allItems, query[1]);
+      break;
+
+    case "UPDATE":
+      // console.log("It's UPDATE!", allItems, query[1]);
+      let arrParam = parseQuery(query, 'UPDATE');
+      let arrUpdateArgs = parseQuery(arrParam, 'SET');
+
+      findRemove(allItems, arrUpdateArgs[0])
+      // if remove succes else : add new usr and num
+      arrUpdateArgs.shift();
+      addUser(allItems, query);
+      // console.log("It's UPDATE!",  arrUpdateArgs[0]);
 
       break;
-    case "UPDATE":
-      console.log("It's almost the weekend!");
-      break;
+
     default:
       console.error("Error!");
   }
 }
 // node .\drawwork.js SELECT FROM 'canada'
 // function insertToDB(database) {
-function updateToDB(database, db) {
+function updateToDB(database, db, action) {
   let validData = true;
   if ( validData ) {
       let txt = database;
       fs.writeFile(db, txt, {encoding: "utf8", flag: "w", mode: 0o666},
           (err) => {
               if (err) console.log(err);
-              else { console.log("update!"); }
+              else { console.log("update! ", action); }
           }
       );
   }
@@ -219,6 +226,15 @@ function addNewUsrToList(object, values) {
   }
   return object;
 }
+// function deleteUpdateAndSet(arr) {
+function parseQuery(arr, element) {
+  // elem => array 
+  const index = arr.indexOf(element);
+  if (index !== -1) {
+    arr.splice(index, 1);
+  }
+  return arr;
+}
 // HELPERS -- end 
 
 // QUERIES LIST 
@@ -251,26 +267,32 @@ function selectName(item, kv, object){
   return result;
 }
 function addUser( allObj, argsArr ) {
-
+  // validate usr and telnum 
   let valid = validateUsrAnsTel(argsArr);
   
   if ( valid ) {
-    let lep = addNewUsrToList(allObj.main, argsArr);
+    let newList = addNewUsrToList(allObj.main, argsArr);
+    // console.error('new val', newList);
+    // join to update 3 fns to one --
+    let pipeData = objectToStringPipe(newList);
+    updateToDB(JSON.stringify(newList), STORAGE_UPDATE, 'add new usr');
+    updateToDB(pipeData, STORAGE_MAIN_PIPE, 'add new usr');
 
   } else {
       console.error('not valid usr tel');
   }
-  // validate usr and telnum 
 }
 function validateUsrAnsTel(argsArr){
   // add to config OBJ with all reg exp 
   const telNumPattern1 = /^\+\d{11}$/;
   const telNumPattern2 = /^\+\d{12}$/;
 
-  console.log(telNumPattern1.test(argsArr[1]) ||
-              telNumPattern2.test(argsArr[1]) ); 
+  // console.log(telNumPattern1.test(argsArr[1]) ||
+  //             telNumPattern2.test(argsArr[1]) ); 
 
   // if(validUsr && validTel) true ;
+  return telNumPattern1.test(argsArr[1]) ||
+  telNumPattern2.test(argsArr[1]);
 }
 
 function selectOnCountry(telNumsArr, codeCountry){
@@ -290,10 +312,10 @@ function findRemove(allItem, itm) {
   if ( names.includes(itm) ) {
     
     delete all[itm];
-     pipeData = objectToStringPipe(all);
-    // join to update fns to one --
-    updateToDB(JSON.stringify(all), STORAGE_UPDATE);
-    updateToDB(pipeData, STORAGE_MAIN_PIPE);
+    // join to update 3 fns to one --
+    pipeData = objectToStringPipe(all);
+    updateToDB(JSON.stringify(all), STORAGE_UPDATE, 'usr is remove');
+    updateToDB(pipeData, STORAGE_MAIN_PIPE, 'usr is remove');
 
   } else if (tels.includes(itm)) {
       console.log('tel elem', tels, itm)
@@ -301,8 +323,8 @@ function findRemove(allItem, itm) {
     all = deletePropertyByValue(all, itm);
     pipeData = objectToStringPipe(all);
     // join to update fns to one --
-    updateToDB(JSON.stringify(all), STORAGE_UPDATE);
-    updateToDB(pipeData, STORAGE_MAIN_PIPE);
+    updateToDB(JSON.stringify(all), STORAGE_UPDATE, 'usr is remove');
+    updateToDB(pipeData, STORAGE_MAIN_PIPE, 'usr is remove');
 
   } else { console.log('no elem')}
 
