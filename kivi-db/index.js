@@ -1,239 +1,204 @@
+#!/usr/bin/env node
 const fs = require('fs');
 const path = require("path");
-// const {NAMES } = require('./config.js');
+const dbFilePath = path.join(__dirname, '/store/storage.txt');
 
-// BUILD DATA GENERATOR FOR FILL KEY-VALUE DB
-const COUNTRY_CODE = {
-            "US": 1, "Canada": 19,
-            "United Kingdom": 44, 'Australia': 61,
-            "Germany": 49, "France": 33, "Japan": 81,
-            "Brazil": 55, "India": 91, "China": 86
+const STORAGE_UPDATE = path.join(__dirname, '/store/upstorage.txt');
+const STORAGE_MAIN_PIPE = path.join(__dirname, '/store/storage.txt');
+
+const config = require('./config.json');
+const { 
+        parseTxt,
+        parseQuery,
+        filterObjectByValuePrefix,
+        buildObjfromArrays,
+        deletePropertyByValue,
+        capitalizeFirstLetter,
+        objectToStringPipe,
+} = require('./helpers');
+
+const { 
+  selectName,
+  findRemove,
+} = require('./queries');
+
+const { 
+  updateToDB,
+} = require('./model');
+
+
+const COUNTRY_CODE = config.countryCode;
+
+// Check if at least one command-line argument is provided
+if (process.argv.length < 3) {
+  console.error('node cli_example.js <message>');
+  process.exit(1); // Exit the script with a non-zero status code to indicate an error
 }
 
-// const NAMES =  ['John', 'Jane', 'Michael', 'Emily', 'William', 'Olivia', 'James', 'Sophia',
-// 'Smith', 'Johnson', 'Brown', 'Williams', 'Jones', 'Miller', 'Davis', 'Garcia'];
-const NAMES = [
-    'Ivan',       'Petrov',     'Maria',        'Sidorova',   'Vasyl',
-    'Kovalenko',  'Olena',      'Lysenko',      'Andrii',     'Kozlov',
-    'Nataliia',   'Moroz',      'Mykhailo',     'Pavlenko',   'Sofia',
-    'Shevchenko', 'Yurii',      'Zaitsiv',      'Tetiana',    'Kravchenko',
-    'Oleh',       'Honchar',    'Iryna',        'Kuzmenko',   'Serhii',
-    'Boiko',      'Anna',       'Doroshenko',   'Dmytro',     'Hryhorenko',
-    'Liudmyla',   'Tkachenko',  'Roman',        'Savchenko',  'Kateryna',
-    'Levchenko',  'Vitalii',    'Rudenko',      'Yevhen',     'Melnyk',
-    'Olha',       'Fedorenko',  'Pavlo',        'Shevtsov',   'Halyna',
-    'Mazur',      'Artem',      'Korol',        'Larysa',     'Myronenko',
-    'Ihor',       'Shapoval',   'Tetiana',      'Polyakova',  'Ruslan',
-    'Serhiienko', 'Alla',       'Kotsiubynska', 'Yaroslav',   'Onopko',
-    'Lidiia',     'Bondarenko', 'Volodymyr',    'Frolov',     'Nina',
-    'Hrytsenko',  'Andrii',     'Panchenko',    'Oksana',     'Tereshchenko',
-    'Anatolii',   'Havryliuk',  'Maryna',       'Martynenko', 'Serhii',
-    'Lys',        'Tamara',     'Popova',       'Vladyslav',  'Bilous',
-    'Liubov',     'Kostenko',   'Viktor',       'Semenov',    'Nina',
-    'Bilenka',    'Oleksii',    'Riabokon',
-  'Hans', 'Müller', 'Anna', 'Schmidt',
-  'Michael', 'Schneider', 'Maria', 'Fischer',
-  'Thomas', 'Weber', 'Andrea', 'Meyer',
-  'Martin', 'Wagner', 'Susanne', 'Becker',
-  'Christian', 'Schulz',  'Ursula', 'Hoffmann',
-  'Stefan', 'Schäfer', 'Petra', 'Koch', 'Sebastian', 'Bauer',
-  'Monika', 'Richter', 'Markus', 'Klein',
-  'Sabine', 'Wolf', 'Patrick', 'Neumann', 'Silke', 'Schwarz',
-  'Alexander', 'Zimmermann', 'Kathrin', 'Braun', 'Daniel', 'Krüger',
-  'Melanie', 'Hofmann', 'Jürgen', 'Schmitt', 'Barbara', 'Werner',
-  'Tobias', 'Lange', 'Anja', 'Schmid',
-  'Nico', 'Krause', 'Tanja', 'Vogel',
-  'Oliver', 'Stein', 'Janine', 'Otto',
-  'Max', 'Günther', 'Jasmin', 'Berger',
-  'Sven', 'Arnold', 'Laura', 'Peters',
-  'Florian', 'Huber', 'Nina', 'Walter',
-  'Juan',      'Garcia',    'Maria',   'Rodriguez',
-  'Manuel',    'Martinez',  'Laura',   'Fernandez',
-  'Antonio',   'Lopez',     'Isabel',  'Sanchez',  
-  'Francisco', 'Torres',    'Ana',     'Perez',    
-  'David',     'Ramirez',   'Sofia',   'Gonzalez', 
-  'Pedro',     'Diaz',      'Luisa',   'Romero',   
-  'Miguel',    'Castro',    'Elena',   'Ruiz',     
-  'Rafael',    'Hernandez', 'Carmen',  'Navarro',
-  'Diego',     'Jimenez',   'Natalia', 'Morales',
-  'Carlos',    'Ortega',    'Raquel',  'Vega',
-  'Javier',    'Martin',    'Beatriz', 'Guerrero',
-  'Jose',      'Morales',   'Adriana', 'Medina',
-  'Roberto',   'Vargas',    'Lourdes', 'Leon',
-  'Gabriel',   'Soto',      'Silvia',  'Rios',
-  'John', 'Jane', 'Michael', 'Emily', 'William', 'Olivia', 'James', 'Sophia',
-  'Smith', 'Johnson', 'Brown', 'Williams', 'Jones', 'Miller', 'Davis', 'Garcia',
-  'Pablo',     'Castro',    'Marta',   'Navarro'
-];
+// Access the command-line argument at index 2 (index 0 and 1 are reserved for node and script name)
+const message1 = process.argv[2];
+const message2 = process.argv[3];
+const message3 = process.argv[4];
+// remove first two elms 
+const [, , ... queryArray ] = process.argv;
 
-// const NAMES = cnf("NAMES");
+let dbTXT;
 
-const QTY = 500000; // max: 3 000 000 // optimal: 500000
-const STORAGE = 'storage.txt';
+// console.log('KV:', message1, message2, message3);
+// console.log('KV:', queryArray);
+// handeQuery(queryArray);
 
-function generateRanKit(length) {
-    if (length <= 0)  throw new Error("Length must be greater than 0");
-  
-    const min = Math.pow(10, length - 1);
-    const max = Math.pow(10, length) - 1;
-  
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+// get region telephone num 
+function handeQuery(query, allItems){
+
+  switch (query[0]) {
+    case "READ":
+      //  readDbJSON((database) => {  return database;} );
+      let code = COUNTRY_CODE[capitalizeFirstLetter(query[query.length - 1])];
+      // get country code NUM on countryName 
+      const matchingElements = selectOnCountry(allItems, code);
+      return matchingElements;
+      // read from db 
+      break;
+
+    // case "CREATE":
+    case "ADD":
+      query.shift();
+      addUser(allItems, query);
+      break;
+
+    case "DELETE":
+      // validate query here or upper 
+      const delRes = findRemove(allItems, query[1]);
+      break;
+
+    case "UPDATE":
+          // console.log("It's UPDATE!", allItems, query[1]);
+          let arrParam = parseQuery(query, 'UPDATE');
+          let arrUpdateArgs = parseQuery(arrParam, 'SET');
+
+          findRemove(allItems, arrUpdateArgs[0])
+          // if remove succes else : add new usr and num
+          arrUpdateArgs.shift();
+          addUser(allItems, query);
+      break;
+
+    default: console.error("Error!");
+  }
+}
+// node .\drawwork.js SELECT FROM 'canada'
+// function insertToDB(database) {
+
+function readDbJSON(callback) {
+  fs.readFile(dbFilePath, 'utf8', (err, data) => {
+       if (err) {
+           console.error('Error reading database:', err);
+           return;
+       }
+
+       try {
+          //  dbJSON = JSON.parse(data); callback(dbJSON);
+
+          // https://github.com/mykola-telychko/assistant-js
+          obj3Level = parseTxt(data); 
+          let u = 'PetraDiazKotsiubynska';
+          let usrItem = selectName(u, 'key', obj3Level.main);
+
+          // regexp for detected name or number -updateObjectItem
+          // updateObjectItem(dbTXT, Object.keys(usrItem)[0], 'zelupa');
+          // updateObjectItem(kv, dbTXT, '+914763000853', '+914763111853');
+// get only REGION nums 
+// All-data -> apply query -> result obj 
+console.log('simpleSelectRegion::', handeQuery(queryArray, obj3Level));
+// handeQuery(queryArray, obj3Level)
+
+          callback(dbTXT);// get variable outer ,
+          //  console.log('txt::', dbTXT);
+       } catch (parseError) { console.error('Error parsing JSON:', parseError); }
+  });
+   return dbTXT;
+}
+// readDbJSON((database) => { console.log(database); return database;} );
+// readDbJSON((database) => { return database;} ); // +++
+let mod;
+     mod = 'select';
+if ( mod == 'select' ) {
+  readDbJSON((database) => {  return database;} );
+
 }
 
-function getRandElFromArray(arr) {
-    const randomIndex = Math.floor(Math.random() * arr.length);
-    return arr[randomIndex];
-}
 
-function genRandNames(quantity, elements) {
-    const randomStrings = []; const elementsCount = elements.length;
-  
-    for (let i = 0; i < quantity; i++) {
-      let randomString = '';
-      for (let j = 0; j < 3; j++) {
-        const randomIndex = Math.floor(Math.random() * elementsCount);
-        randomString += elements[randomIndex];
-      }
-      randomStrings.push(randomString);
-    }
-  
-    return randomStrings;
-}
+// txt -> obj //
 
-function genTelNums( quantity) {
-    const CODE = Object.values(COUNTRY_CODE);
-    let finArr = [];
 
-    for ( let i = 0; i < quantity; i++ ) {
-         finArr.push('+' + getRandElFromArray(CODE) + generateRanKit(10));
-    }
-    return finArr;
-}
-
+// HELPERS -- start 
 function buildTable(keys, values){
-    const tableData = [];
-    for (let i = 0; i < Math.max(keys.length, values.length); i++) {
-      tableData.push({ Column1: keys[i], Column2: values[i] });
-    }
-    return tableData;
+  const tableData = [];
+  for (let i = 0; i < Math.max(keys.length, values.length); i++) {
+    tableData.push({ Column1: keys[i], Column2: values[i] });
+  }
+  return tableData;
 }
-
-let peoples = genRandNames( QTY, NAMES); 
-let telnum = genTelNums( QTY);
-
-  // console.table( buildTable(peoples, telnum) );
-
-  // console.log(  JSON.stringify({nam, num})); // { nam:[], num:[] }
-  // console.log( nam.length, nam, "\n",
-  //                num.length, num );
-
-  // функція для переливання з массива в массив на вказану кількість елементів 
-  function moveElements(sourceArray, targetArray, count) {
-    if (!Array.isArray(sourceArray) || !Array.isArray(targetArray) || count < 0) {
-      throw new Error('Параметри некоректні');
-    }
-    const elementsToMove = sourceArray.slice(0, count); // Копіюємо елементи, а не видаляємо їх
-    const newTargetArray = [...targetArray, ...elementsToMove]; // Створюємо новий масив, що включає переміщені елементи
-    return newTargetArray;
-  }
-
-  function generateAndPushUniqueElements(qty, targetArray, spareMilElem) {
-        // spareMilElem -> targetArray (Nu el)
-        let Nu =  qty - targetArray.length;
-        if ( Nu > 0 ) {
-            let finArr = moveElements(spareMilElem, targetArray, Nu);
-            // console.log( Nu, finArr );
-            return finArr;
-        } else {
-            return targetArray;
-        }
-  }
-
-
-
-  const millionUniqueNames = generateUniqueNamesArray(1000000);
-  let unames = uniqueNameArray(peoples);
-  let uNamArr =  generateAndPushUniqueElements(QTY , unames, millionUniqueNames);
-    // console.log( appi ); 
-  let dataForDb =  concatenateArraysAlternately(uNamArr, telnum).join('|');
-  insertToDB(dataForDb); // write to db
-
-
-
-
-function insertToDB(database) {
-
-  let validData = true;
-  // console.log('validData', validData);
-  if ( validData ) {
-      let txt = database;
-
-      fs.writeFile(STORAGE, txt,
-          {encoding: "utf8", flag: "w", mode: 0o666},
-          (err) => {
-              if (err) console.log(err);
-              else {
-                  console.log("The written has the following contents:");
-              }
-          }
-      );
-  }
-}
-
-// insertToDB(JSON.stringify({...nam, ...num}));
-
-// HELPERS 
-function uniqueNameArray(arr) {
-  const uniqueArray = []; const seenValues = {};
-
-  for (const value of arr) {
-    if (!seenValues[value]) {
-      uniqueArray.push(value);
-      seenValues[value] = true;
+function getKeysByValue(obj, targetValue) {
+  const keys = [];
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key) && obj[key] === targetValue) {
+      keys.push(key);
     }
   }
-  return uniqueArray;
+  return keys;
+}
+function addNewUsrToList(object, values) {
+  if (values.length === 2) {
+      const [name, phoneNumber] = values;
+      object[name] = phoneNumber;
+  } else {
+      console.error("Invalid input. The values array"+
+      " should contain exactly two elements: name and"+
+      " phoneNumber.");
+  }
+  return object;
 }
 
-///////
-function generateRandomName() {
-  const length = 6; // Довжина імені
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'; // Символи, які можуть бути в імені
-  let name = '';
+// HELPERS -- end 
 
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    name += characters.charAt(randomIndex);
+// QUERIES LIST 
+
+function addUser( allObj, argsArr ) {
+  // validate usr and telnum 
+  let valid = validateUsrAnsTel(argsArr);
+  
+  if ( valid ) {
+    let newList = addNewUsrToList(allObj.main, argsArr);
+    // console.error('new val', newList);
+    // join to update 3 fns to one --
+    let pipeData = objectToStringPipe(newList);
+    updateToDB(JSON.stringify(newList), STORAGE_UPDATE, 'add new usr');
+    updateToDB(pipeData, STORAGE_MAIN_PIPE, 'add new usr');
+
+  } else {
+      console.error('not valid usr tel');
   }
+}
+function validateUsrAnsTel(argsArr){
+  // add to config OBJ with all reg exp 
+  const telNumPattern1 = /^\+\d{11}$/;
+  const telNumPattern2 = /^\+\d{12}$/;
 
-  return name;
+  // console.log(telNumPattern1.test(argsArr[1]) ||
+  //             telNumPattern2.test(argsArr[1]) ); 
+
+  // if(validUsr && validTel) true ;
+  return telNumPattern1.test(argsArr[1]) ||
+  telNumPattern2.test(argsArr[1]);
 }
 
-// use for custom hash fn
-function generateUniqueNamesArray(count) {
-  const uniqueNames = new Set();
+function selectOnCountry(telNumsArr, codeCountry){
+  let telNums;
+  let prefix = "+" + codeCountry;
+  telNums = filterObjectByValuePrefix(telNumsArr.main, prefix);
 
-  while (uniqueNames.size < count) {
-    const name = generateRandomName();
-    uniqueNames.add(name);
-  }
-
-  return Array.from(uniqueNames);
-}
-
-function concatenateArraysAlternately(arr1, arr2) {
-  if (arr1.length !== arr2.length) {
-    throw new Error('Масиви мають різну довжину');
-  }
-
-  const result = [];
-
-  for (let i = 0; i < arr1.length; i++) {
-    result.push(arr1[i]);
-    result.push(arr2[i]);
-  }
-
-  return result;
+  return telNums;
 }
 
 
