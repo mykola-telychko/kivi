@@ -23,6 +23,10 @@ const {
 } = require('./queries');
 
 const { 
+  validateUsrAnsTel,
+} = require('./validators');
+
+const { 
   updateToDB,
 } = require('./model');
 
@@ -101,19 +105,18 @@ function readDbJSON(callback) {
 
           // https://github.com/mykola-telychko/assistant-js
           obj3Level = parseTxt(data); 
-          let u = 'PetraDiazKotsiubynska';
-          let usrItem = selectName(u, 'key', obj3Level.main);
+          let usrNumParam = queryArray.pop();
+          let usrItem = selectName(usrNumParam, 'key', obj3Level.main);
 
           // regexp for detected name or number -updateObjectItem
-          // updateObjectItem(dbTXT, Object.keys(usrItem)[0], 'zelupa');
-          // updateObjectItem(kv, dbTXT, '+914763000853', '+914763111853');
 // get only REGION nums 
 // All-data -> apply query -> result obj 
+ console.log('txt::', usrItem);
+
 console.log('simpleSelectRegion::', handeQuery(queryArray, obj3Level));
 // handeQuery(queryArray, obj3Level)
 
           callback(dbTXT);// get variable outer ,
-          //  console.log('txt::', dbTXT);
        } catch (parseError) { console.error('Error parsing JSON:', parseError); }
   });
    return dbTXT;
@@ -180,18 +183,18 @@ function addUser( allObj, argsArr ) {
       console.error('not valid usr tel');
   }
 }
-function validateUsrAnsTel(argsArr){
-  // add to config OBJ with all reg exp 
-  const telNumPattern1 = /^\+\d{11}$/;
-  const telNumPattern2 = /^\+\d{12}$/;
+// function validateUsrAnsTel(argsArr){
+//   // add to config OBJ with all reg exp 
+//   const telNumPattern1 = /^\+\d{11}$/;
+//   const telNumPattern2 = /^\+\d{12}$/;
 
-  // console.log(telNumPattern1.test(argsArr[1]) ||
-  //             telNumPattern2.test(argsArr[1]) ); 
+//   // console.log(telNumPattern1.test(argsArr[1]) ||
+//   //             telNumPattern2.test(argsArr[1]) ); 
 
-  // if(validUsr && validTel) true ;
-  return telNumPattern1.test(argsArr[1]) ||
-  telNumPattern2.test(argsArr[1]);
-}
+//   // if(validUsr && validTel) true ;
+//   return telNumPattern1.test(argsArr[1]) ||
+//   telNumPattern2.test(argsArr[1]);
+// }
 
 function selectOnCountry(telNumsArr, codeCountry){
   let telNums;
