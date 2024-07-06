@@ -1,0 +1,102 @@
+read / select - зробити два ці варіанти select key / select val /
+
+key/val/group- country 
+--------------------
+1) Column1 Column2 - вносити значення які будуть іменами стовбчиків 
+
+2) зробити обгортку для запису у файл (виности назви в файл конфігу для базу
+(окремий від основного конфіга))
+
+3) для доповнення унікальних массивів до потрібної кількості. Створити файл де 
+мільйон імен і кожен раз коли ми домішуємо скорочується кількість цих запасних імен 
+в файлі.[file of spareName]
+
+4) система паралельної обробки данних\запитів 
+
+5) ПРІОРИТЕТ . видалити коменти і структурувати і описати що тут відбувається 
+7) розбиваня файлу на два массива окремих  - ключі і массиви
+
+8) updateObjectItem - зробити різні режими зміни kv
+
+9) describe livecycle query (fn->fn)
+readDbJSON -> parseTxt -> handeQuery ->
+
+10) наглядач - періодично запускається що перевірятіи integrity + писати 
+всі помилки про запити або порушення в сховищах 
+
+11) storage-upstorage ?
+
+12) allItem [main: listObj, usr: [], tel: [], ...]
+12) query validation 
+15) // join to update fns to one -- (search in file this)
+
+16) create separate dir for db files 
+17) separate error system notification and success notif msg
+18) multiple delet/add (crud)
+
+19) insert->controller->model;
+
+   // join to update 3 fns to one --
+    let pipeData = objectToStringPipe(newList);
+    updateToDB(JSON.stringify(newList), STORAGE_UPDATE);
+    updateToDB(pipeData, STORAGE_MAIN_PIPE);
+
+Queries: 
+read region - [done]
+findRemove - on Name and on PhoneNum [done]
+create (add) - [in process] 
+
+
+conveyer is work:
+node .\index.js DELETE pyoxXoxo | node .\drawwork.js DELETE PWQVfovf
+node .\index.js DELETE +817431482845
+// parse and AFTER update get one or two ele;
+UPDATE +818911381317 SET KeyKey +869646386980
+node .\index.js ADD lkdfglkjdfglklkd +869646382222
+
+
+United States: +1 = ( if not +19 )
+Canada: +19
+United Kingdom: +44
+Australia: +61
+Germany: +49
+France: +33
+Japan: +81
+Brazil: +55
+India: +91
+China: +86
+
+функція генерування мільйону імен  
+function generateRandomName() {
+  const length = 6; // Довжина імені
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'; // Символи, які можуть бути в імені
+  let name = '';
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    name += characters.charAt(randomIndex);
+  }
+
+  return name;
+}
+
+
+const millionUniqueNames = generateUniqueNamesArray(1000000);
+console.log(millionUniqueNames.length); // Має вивести 1000000
+
+
+
+  // -- OVERFLOW STACK 
+  // function generateAndPushUniqueElements(qty, targetArray, generateFunction) {
+  //   if (qty <= 0) {
+  //     return; // Завершуємо рекурсію, коли досягнута задана кількість елементів
+  //   }
+  //   // Перевіряємо, чи новий елемент є унікальним
+  //   if (!targetArray.includes(generateFunction)) {
+  //     targetArray.push(generateFunction);
+  //     generateAndPushUniqueElements(qty - 1, targetArray, generateFunction); // Рекурсивно викликаємо функцію
+  //   } else {
+  //     // Якщо новий елемент не є унікальним, спробуємо знову
+  //     generateAndPushUniqueElements(qty, targetArray, generateFunction);
+  //   }
+  // }

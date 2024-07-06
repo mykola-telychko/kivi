@@ -40,11 +40,10 @@ if (process.argv.length < 3) {
 }
 
 // Access the command-line argument at index 2 (index 0 and 1 are reserved for node and script name)
-const message1 = process.argv[2];
-const message2 = process.argv[3];
-const message3 = process.argv[4];
 // remove first two elms 
-const [, , ... queryArray ] = process.argv;
+// const [, , ... queryArray ] = process.argv.slice(2);
+const queryArray = process.argv.slice(2);
+
 
 let dbTXT;
 
@@ -61,6 +60,10 @@ function handeQuery(query, allItems){
       let code = COUNTRY_CODE[capitalizeFirstLetter(query[query.length - 1])];
       // get country code NUM on countryName 
       const matchingElements = selectOnCountry(allItems, code);
+
+      // console.log('matchingElements::', matchingElements);
+      console.log( query );
+
       return matchingElements;
       // read from db 
       break;
@@ -102,21 +105,38 @@ function readDbJSON(callback) {
 
        try {
           //  dbJSON = JSON.parse(data); callback(dbJSON);
-
           // https://github.com/mykola-telychko/assistant-js
-          obj3Level = parseTxt(data); 
-          let usrNumParam = queryArray.pop();
-          let usrItem = selectName(usrNumParam, 'key', obj3Level.main);
 
-          // regexp for detected name or number -updateObjectItem
-// get only REGION nums 
-// All-data -> apply query -> result obj 
- console.log('txt::', usrItem);
 
-console.log('simpleSelectRegion::', handeQuery(queryArray, obj3Level));
-// handeQuery(queryArray, obj3Level)
 
-          callback(dbTXT);// get variable outer ,
+              // -------- KEY/VAL -- start
+              obj3Level = parseTxt(data); 
+              let usrNumParam = queryArray.pop();
+              let usrItem = selectName(usrNumParam, 'key', obj3Level.main);
+              console.log('Receive user::', usrItem);
+              // node .\index.js READ FROM 'HrytsenkoOlhaNina'
+              // -------- KEY/VAL -- end
+
+
+              // -------- COUNTRY --- start
+              obj3Level = parseTxt(data); 
+              let TMPqryArr = queryArray;
+              // let usrNumParam = queryArray.pop();
+              // let usrItem = selectName(usrNumParam, 'key', obj3Level.main);
+              // regexp for detected name or number -updateObjectItem
+              // get only REGION nums 
+              // All-data -> apply query -> result obj 
+              //  console.log('txt::', obj3Level.main);
+              // console.log('txt::', usrItem);
+              console.log('txt::', TMPqryArr);
+              let res = handeQuery(TMPqryArr, obj3Level)
+              console.log('simpleSelectRegion::', res);
+              // handeQuery(queryArray, obj3Level)
+              callback(dbTXT);// get variable outer ,
+              // -------- COUNTRY --- end
+
+
+
        } catch (parseError) { console.error('Error parsing JSON:', parseError); }
   });
    return dbTXT;
@@ -162,7 +182,6 @@ function addNewUsrToList(object, values) {
   }
   return object;
 }
-
 // HELPERS -- end 
 
 // QUERIES LIST 
@@ -198,10 +217,20 @@ function addUser( allObj, argsArr ) {
 
 function selectOnCountry(telNumsArr, codeCountry){
   let telNums;
-  let prefix = "+" + codeCountry;
-  telNums = filterObjectByValuePrefix(telNumsArr.main, prefix);
+  let prefix = codeCountry ? "+" + codeCountry: null;
 
-  return telNums;
+  if(prefix){
+      // console.log('selectOnCountry::', telNumsArr.main, prefix);
+      console.log('selectOnCountry::',  prefix);
+
+      telNums = filterObjectByValuePrefix(telNumsArr.main, prefix);
+      return telNums;
+
+  } else {
+    return 'error';
+  }
+
+
 }
 
 
