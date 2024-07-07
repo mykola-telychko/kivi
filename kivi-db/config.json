@@ -1,6 +1,6 @@
 {
   "qtyItems": 1000,
-  "pathDB": "../store/storage.txt",
+  "pathDB": "store/storage.txt",
   "countryCode": {
     "US": 1, "Canada": 19,
     "United Kingdom": 44, "Australia": 61,

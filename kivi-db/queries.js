@@ -16,7 +16,7 @@ const STORAGE_UPDATE = path.join(__dirname, '/store/upstorage.txt');
 const STORAGE_MAIN_PIPE = path.join(__dirname, '/store/storage.txt');
 const COUNTRIES = config.countries;
 
-function selectName(item, kvt, object){
+function selectOnKeyOrVal(item, kvt, object){
   
     // console.log('selectName::', item, kv, object);
     let obj = object;
@@ -100,6 +100,6 @@ function findRemove(allItem, itm) {
 
 
 module.exports = {
-    selectName,
+    selectOnKeyOrVal,
     findRemove,
 };

@@ -18,7 +18,7 @@ const {
 } = require('./helpers');
 
 const { 
-  selectName,
+  selectOnKeyOrVal,
   findRemove,
 } = require('./queries');
 
@@ -58,11 +58,32 @@ function handeQuery(query, allItems){
     case "READ":
       //  readDbJSON((database) => {  return database;} );
       let code = COUNTRY_CODE[capitalizeFirstLetter(query[query.length - 1])];
-      // get country code NUM on countryName 
-      const matchingElements = selectOnCountry(allItems, code);
+      let matchingElements;
 
+      if ( code ) {
+          // get country code NUM on countryName 
+          matchingElements = selectOnCountry(allItems, code);
+      } else {
+              // -------- KEY/VAL -- start
+              // pass KEY if key exists in name // get key or val
+              let usrNumParam = queryArray.pop();
+              let usrItem;
+
+              if ( obj3Level.usr.includes(usrNumParam) ) {
+
+                  usrItem = selectOnKeyOrVal(usrNumParam, 'key', obj3Level.main);
+                  console.log('Receive user::', usrItem);
+              } else {
+
+                  usrItem = selectOnKeyOrVal(usrNumParam, 'value', obj3Level.main);
+                  console.log('Receive num::', usrItem);
+              }
+        
+              // node .\index.js READ FROM 'HrytsenkoOlhaNina'
+              //-------- KEY/VAL -- end
+      }
       // console.log('matchingElements::', matchingElements);
-      console.log( query );
+      // console.log( query );
 
       return matchingElements;
       // read from db 
@@ -106,20 +127,20 @@ function readDbJSON(callback) {
        try {
           //  dbJSON = JSON.parse(data); callback(dbJSON);
           // https://github.com/mykola-telychko/assistant-js
+          obj3Level = parseTxt(data); 
 
 
 
               // -------- KEY/VAL -- start
-              obj3Level = parseTxt(data); 
-              let usrNumParam = queryArray.pop();
-              let usrItem = selectName(usrNumParam, 'key', obj3Level.main);
-              console.log('Receive user::', usrItem);
+              // let usrNumParam = queryArray.pop();
+              // let usrItem = selectOnKeyOrVal(usrNumParam, 'key', obj3Level.main);
+              // console.log('Receive user::', usrItem);
               // node .\index.js READ FROM 'HrytsenkoOlhaNina'
               // -------- KEY/VAL -- end
 
 
               // -------- COUNTRY --- start
-              obj3Level = parseTxt(data); 
+              // obj3Level = parseTxt(data); 
               let TMPqryArr = queryArray;
               // let usrNumParam = queryArray.pop();
               // let usrItem = selectName(usrNumParam, 'key', obj3Level.main);
@@ -202,6 +223,9 @@ function addUser( allObj, argsArr ) {
       console.error('not valid usr tel');
   }
 }
+function getUser(){
+
+}
 // function validateUsrAnsTel(argsArr){
 //   // add to config OBJ with all reg exp 
 //   const telNumPattern1 = /^\+\d{11}$/;
@@ -215,22 +239,21 @@ function addUser( allObj, argsArr ) {
 //   telNumPattern2.test(argsArr[1]);
 // }
 
+// select on group
 function selectOnCountry(telNumsArr, codeCountry){
-  let telNums;
-  let prefix = codeCountry ? "+" + codeCountry: null;
+    let telNums;
+    let prefix = codeCountry ? "+" + codeCountry: null;
 
-  if(prefix){
-      // console.log('selectOnCountry::', telNumsArr.main, prefix);
-      console.log('selectOnCountry::',  prefix);
+    if(prefix){
+        // console.log('selectOnCountry::', telNumsArr.main, prefix);
+        console.log('selectOnCountry::',  prefix);
 
-      telNums = filterObjectByValuePrefix(telNumsArr.main, prefix);
-      return telNums;
+        telNums = filterObjectByValuePrefix(telNumsArr.main, prefix);
+        return telNums;
 
-  } else {
-    return 'error';
-  }
-
-
+    } else {
+      return 'error';
+    }
 }
 
 
