@@ -41,6 +41,11 @@ readDbJSON -> parseTxt -> handeQuery ->
     updateToDB(JSON.stringify(newList), STORAGE_UPDATE);
     updateToDB(pipeData, STORAGE_MAIN_PIPE);
 
+
+20) query-log save query to file 
+21) assistant-js integrate instead helper.js (merge)  
+22) msg - empty storage / data not found 
+
 Queries: 
 read region - [done]
 findRemove - on Name and on PhoneNum [done]

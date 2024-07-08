@@ -5,6 +5,7 @@ const dbFilePath = path.join(__dirname, '/store/storage.txt');
 
 const STORAGE_UPDATE = path.join(__dirname, '/store/upstorage.txt');
 const STORAGE_MAIN_PIPE = path.join(__dirname, '/store/storage.txt');
+const LOGS = path.join(__dirname, '/store/log.txt');
 
 const config = require('./config.json');
 const { 
@@ -30,6 +31,9 @@ const {
   updateToDB,
 } = require('./model');
 
+const { 
+  loggingQueries,
+} = require('./Logger');
 
 const COUNTRY_CODE = config.countryCode;
 
@@ -56,7 +60,7 @@ function handeQuery(query, allItems){
 
   switch (query[0]) {
     case "READ":
-      //  readDbJSON((database) => {  return database;} );
+      loggingQueries(query, LOGS);
       let code = COUNTRY_CODE[capitalizeFirstLetter(query[query.length - 1])];
       let matchingElements;
 
