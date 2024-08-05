@@ -14,7 +14,8 @@ key/val/group- country
 4) система паралельної обробки данних\запитів 
 
 5) ПРІОРИТЕТ . видалити коменти і структурувати і описати що тут відбувається 
-7) розбиваня файлу на два массива окремих  - ключі і массиви
+
+7) розбиваня файлу на два массива окремих  - ключі і массиви (працюємо з обьектом бази а не на пряму з базою)
 
 8) updateObjectItem - зробити різні режими зміни kv
 
@@ -30,7 +31,6 @@ readDbJSON -> parseTxt -> handeQuery ->
 12) query validation 
 15) // join to update fns to one -- (search in file this)
 
-16) create separate dir for db files 
 17) separate error system notification and success notif msg
 18) multiple delet/add (crud)
 
@@ -41,16 +41,21 @@ readDbJSON -> parseTxt -> handeQuery ->
     updateToDB(JSON.stringify(newList), STORAGE_UPDATE);
     updateToDB(pipeData, STORAGE_MAIN_PIPE);
 
-
-20) query-log save query to file 
 21) assistant-js integrate instead helper.js (merge)  
 22) msg - empty storage / data not found 
+
+23) helpers and validators FOR(TO) https://github.com/mykola-telychko/assistant-js
+23) helpers and validators FOR(TO) https://github.com/mykola-telychko/assistant-js
+23) helpers and validators FOR(TO) https://github.com/mykola-telychko/assistant-js
+
+
 
 Queries: 
 read region - [done]
 findRemove - on Name and on PhoneNum [done]
 create (add) - [in process] 
 
+node .\index.js READ FROM 'BrownGarciaCarlos'
 
 conveyer is work:
 node .\index.js DELETE pyoxXoxo | node .\drawwork.js DELETE PWQVfovf

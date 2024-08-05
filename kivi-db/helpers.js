@@ -80,6 +80,17 @@ function explodeArray(srcArr) {
   return [evenArr, oddArr];
 }
 
+// FOR PROJECT https://github.com/mykola-telychko/assistant-js
+function isObject(itm) {
+  return itm instanceof Object; 
+}
+
+function isEpmty(itm, etnity) {
+  if (isObject(itm) && etnity == 'obj') {
+
+    return  Object.keys(itm).length === 0 && itm.constructor === Object;
+  } else { return false;}
+}
 
 // CONVERT ARRAY TO STRING - start
 // let array = [1, 2, 3, 4, 5];
@@ -134,5 +145,7 @@ module.exports = {
     add,
     arrToString,
     getCurrentDateTime,
-    helpFn
+    helpFn, 
+    isObject,
+    isEpmty
 };

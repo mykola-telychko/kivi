@@ -1,1 +1,8 @@
 track commits and create list 
+
+1) create data generator 
+2) simple configuration
+2) store/ - dir for db files 
+2) query handler
+
+5) query-logger saves the completed query to a file

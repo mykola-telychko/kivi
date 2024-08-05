@@ -19,10 +19,6 @@ const {
 } = require('./helpers');
 
 const { 
-  analyzeDbResponse,
-} = require('./notifications');
-
-const { 
   selectOnKeyOrVal,
   findRemove,
 } = require('./queries');
@@ -80,15 +76,11 @@ function handeQuery(query, allItems){
               if ( obj3Level.usr.includes(usrNumParam) ) {
 
                   usrItem = selectOnKeyOrVal(usrNumParam, 'key', obj3Level.main);
-
-
-                  console.log('Receive user::', analyzeDbResponse(usrItem));
+                  console.log('Receive user::', usrItem);
               } else {
 
                   usrItem = selectOnKeyOrVal(usrNumParam, 'value', obj3Level.main);
-                  // console.log('Receive num::', usrItem);
-                  console.log('Receive num::', analyzeDbResponse(usrItem));
-
+                  console.log('Receive num::', usrItem);
               }
         
               // node .\index.js READ FROM 'HrytsenkoOlhaNina'
