@@ -1,19 +1,19 @@
 read / select - зробити два ці варіанти select key / select val /
 
-key/val/group- country 
+key/val/group- country
 --------------------
-1) Column1 Column2 - вносити значення які будуть іменами стовбчиків 
+1) Column1 Column2 - вносити значення які будуть іменами стовбчиків
 
 2) зробити обгортку для запису у файл (виности назви в файл конфігу для базу
 (окремий від основного конфіга))
 
-3) для доповнення унікальних массивів до потрібної кількості. Створити файл де 
-мільйон імен і кожен раз коли ми домішуємо скорочується кількість цих запасних імен 
+3) для доповнення унікальних массивів до потрібної кількості. Створити файл де
+мільйон імен і кожен раз коли ми домішуємо скорочується кількість цих запасних імен
 в файлі.[file of spareName]
 
-4) система паралельної обробки данних\запитів 
+4) система паралельної обробки данних\запитів
 
-5) ПРІОРИТЕТ . видалити коменти і структурувати і описати що тут відбувається 
+5) ПРІОРИТЕТ . видалити коменти і структурувати і описати що тут відбувається
 
 7) розбиваня файлу на два массива окремих  - ключі і массиви (працюємо з обьектом бази а не на пряму з базою)
 
@@ -22,13 +22,13 @@ key/val/group- country
 9) describe livecycle query (fn->fn)
 readDbJSON -> parseTxt -> handeQuery ->
 
-10) наглядач - періодично запускається що перевірятіи integrity + писати 
-всі помилки про запити або порушення в сховищах 
+10) наглядач - періодично запускається що перевірятіи integrity + писати
+всі помилки про запити або порушення в сховищах
 
 11) storage-upstorage ?
 
 12) allItem [main: listObj, usr: [], tel: [], ...]
-12) query validation 
+12) query validation
 15) // join to update fns to one -- (search in file this)
 
 17) separate error system notification and success notif msg
@@ -41,8 +41,8 @@ readDbJSON -> parseTxt -> handeQuery ->
     updateToDB(JSON.stringify(newList), STORAGE_UPDATE);
     updateToDB(pipeData, STORAGE_MAIN_PIPE);
 
-21) assistant-js integrate instead helper.js (merge)  
-22) msg - empty storage / data not found 
+21) assistant-js integrate instead helper.js (merge)
+22) msg - empty storage / data not found
 
 23) helpers and validators FOR(TO) https://github.com/mykola-telychko/assistant-js
 23) helpers and validators FOR(TO) https://github.com/mykola-telychko/assistant-js
@@ -50,10 +50,10 @@ readDbJSON -> parseTxt -> handeQuery ->
 
 
 
-Queries: 
+Queries:
 read region - [done]
 findRemove - on Name and on PhoneNum [done]
-create (add) - [in process] 
+create (add) - [in process]
 
 node .\index.js READ FROM 'BrownGarciaCarlos'
 
@@ -63,6 +63,57 @@ node .\index.js DELETE +817431482845
 // parse and AFTER update get one or two ele;
 UPDATE +818911381317 SET KeyKey +869646386980
 node .\index.js ADD lkdfglkjdfglklkd +869646382222
+
+
+---- DB - MODULES -- start
+
+FROM IMGS SCHEME CREATE PRESENTATION OR/AND SITE
+
+Connecting to the Server Using URI-Like Strings or Key-Value Pairs.
+
+Setting Environment Variables .
+
+mysqlimport — A Data Import Program .
+
+InnoDB Tablespace SDI Extraction Utility
+ibd2sdi is a utility for extracting serialized dictionary information (SDI) from InnoDB tablespace files. SDI
+data is present in all persistent InnoDB tablespace files.
+
+import export queries
+
+LOCK_ORDER system (queue)
+
+log components(session-log/cache and buffer)error/slow query/query/
+
+1800-optimization-and-indexes
+
+Query for check - help and documentation  file
+
+Query for check - settings configs
+
+Trigers / Views
+
+---- DB - MODULES -- end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 United States: +1 = ( if not +19 )
@@ -76,7 +127,7 @@ Brazil: +55
 India: +91
 China: +86
 
-функція генерування мільйону імен  
+функція генерування мільйону імен
 function generateRandomName() {
   const length = 6; // Довжина імені
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'; // Символи, які можуть бути в імені
@@ -96,7 +147,7 @@ console.log(millionUniqueNames.length); // Має вивести 1000000
 
 
 
-  // -- OVERFLOW STACK 
+  // -- OVERFLOW STACK
   // function generateAndPushUniqueElements(qty, targetArray, generateFunction) {
   //   if (qty <= 0) {
   //     return; // Завершуємо рекурсію, коли досягнута задана кількість елементів
