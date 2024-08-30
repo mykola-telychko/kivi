@@ -48,6 +48,13 @@ readDbJSON -> parseTxt -> handeQuery ->
 23) helpers and validators FOR(TO) https://github.com/mykola-telychko/assistant-js
 23) helpers and validators FOR(TO) https://github.com/mykola-telychko/assistant-js
 
+Обробка запитів: Middleware може виконувати такі завдання, як:
+
+Аутентифікація та авторизація
+Логування
+Парсинг тіла запиту
+Обробка помилок
+Кешування
 
 
 Queries:
