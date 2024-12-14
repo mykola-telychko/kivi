@@ -95,6 +95,7 @@ function uniqueNameArray(arr) {
     return uniqueArray;
 }
 
+
 function generateRandomName() {
     const length = 8; // name len
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'; 
