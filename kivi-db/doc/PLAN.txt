@@ -42,7 +42,7 @@ readDbJSON -> parseTxt -> handeQuery ->
     updateToDB(pipeData, STORAGE_MAIN_PIPE);
 
 21) assistant-js integrate instead helper.js (merge)
-22) msg - empty storage / data not found
+22) msg - empty storage / data not found (db notification)
 
 23) helpers and validators FOR(TO) https://github.com/mykola-telychko/assistant-js
 23) helpers and validators FOR(TO) https://github.com/mykola-telychko/assistant-js
@@ -50,7 +50,6 @@ readDbJSON -> parseTxt -> handeQuery ->
 
 Обробка запитів: Middleware може виконувати такі завдання, як:
 
-Аутентифікація та авторизація
 Логування
 Парсинг тіла запиту
 Обробка помилок
@@ -78,7 +77,7 @@ FROM IMGS SCHEME CREATE PRESENTATION OR/AND SITE
 
 Connecting to the Server Using URI-Like Strings or Key-Value Pairs.
 
-Setting Environment Variables .
+Setting Environment Variables (registration and login in CLI, Аутентифікація та авторизація).
 
 mysqlimport — A Data Import Program .
 
@@ -94,33 +93,13 @@ log components(session-log/cache and buffer)error/slow query/query/
 
 1800-optimization-and-indexes
 
-Query for check - help and documentation  file
+Query for check - help and documentation  file (command alias in bash: kivi info - check how)
 
 Query for check - settings configs
 
 Trigers / Views
 
 ---- DB - MODULES -- end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 United States: +1 = ( if not +19 )
@@ -133,38 +112,3 @@ Japan: +81
 Brazil: +55
 India: +91
 China: +86
-
-функція генерування мільйону імен
-function generateRandomName() {
-  const length = 6; // Довжина імені
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'; // Символи, які можуть бути в імені
-  let name = '';
-
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    name += characters.charAt(randomIndex);
-  }
-
-  return name;
-}
-
-
-const millionUniqueNames = generateUniqueNamesArray(1000000);
-console.log(millionUniqueNames.length); // Має вивести 1000000
-
-
-
-  // -- OVERFLOW STACK
-  // function generateAndPushUniqueElements(qty, targetArray, generateFunction) {
-  //   if (qty <= 0) {
-  //     return; // Завершуємо рекурсію, коли досягнута задана кількість елементів
-  //   }
-  //   // Перевіряємо, чи новий елемент є унікальним
-  //   if (!targetArray.includes(generateFunction)) {
-  //     targetArray.push(generateFunction);
-  //     generateAndPushUniqueElements(qty - 1, targetArray, generateFunction); // Рекурсивно викликаємо функцію
-  //   } else {
-  //     // Якщо новий елемент не є унікальним, спробуємо знову
-  //     generateAndPushUniqueElements(qty, targetArray, generateFunction);
-  //   }
-  // }
