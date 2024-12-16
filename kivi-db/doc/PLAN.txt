@@ -50,13 +50,6 @@ key/val/group- country
 
 node .\index.js READ FROM 'BrownGarciaCarlos'
 
----- QUERIES -- start --
--------------------------
-
-
----------------------
----- STORAGE -- start
-
 conveyer is work:
 node .\index.js DELETE pyoxXoxo | node .\drawwork.js DELETE PWQVfovf
 node .\index.js DELETE +817431482845
@@ -64,8 +57,18 @@ node .\index.js DELETE +817431482845
 UPDATE +818911381317 SET KeyKey +869646386980
 node .\index.js ADD lkdfglkjdfglklkd +869646382222
 
+---- QUERIES -- end --
+-------------------------
+
+
+-----------------------
+---- STORAGE -- start
+
+db consistency and integrity analysis
+
+
 ---- STORAGE -- end
----------------------
+-----------------------
 
 -----------------------------
 ---- DB - MODULES -- start --
