@@ -1,7 +1,6 @@
-read / select - зробити два ці варіанти select key / select val /
+5) ПРІОРИТЕТ . видалити коменти і структурувати і описати що тут відбувається
+21) ПРІОРИТЕТ project assistant-js integrate instead helper.js (merge)
 
-key/val/group- country
---------------------
 1) Column1 Column2 - вносити значення які будуть іменами стовбчиків
 
 2) зробити обгортку для запису у файл (виности назви в файл конфігу для базу
@@ -13,14 +12,9 @@ key/val/group- country
 
 4) система паралельної обробки данних\запитів
 
-5) ПРІОРИТЕТ . видалити коменти і структурувати і описати що тут відбувається
-
-7) розбиваня файлу на два массива окремих  - ключі і массиви (працюємо з обьектом бази а не на пряму з базою)
+7) (check exists) розбиваня файлу на два массива окремих  - ключі і массиви (працюємо з обьектом бази а не на пряму з базою)
 
 8) updateObjectItem - зробити різні режими зміни kv
-
-9) describe livecycle query (fn->fn)
-readDbJSON -> parseTxt -> handeQuery ->
 
 10) наглядач - періодично запускається що перевірятіи integrity + писати
 всі помилки про запити або порушення в сховищах
@@ -28,40 +22,40 @@ readDbJSON -> parseTxt -> handeQuery ->
 11) storage-upstorage ?
 
 12) allItem [main: listObj, usr: [], tel: [], ...]
-12) query validation
+
 15) // join to update fns to one -- (search in file this)
 
-17) separate error system notification and success notif msg
-18) multiple delet/add (crud)
-
-19) insert->controller->model;
+17)query validation: separate error system notification and success notif msg
 
    // join to update 3 fns to one --
     let pipeData = objectToStringPipe(newList);
     updateToDB(JSON.stringify(newList), STORAGE_UPDATE);
     updateToDB(pipeData, STORAGE_MAIN_PIPE);
 
-21) assistant-js integrate instead helper.js (merge)
+19) insert->controller->model;
 22) msg - empty storage / data not found (db notification)
 
 23) helpers and validators FOR(TO) https://github.com/mykola-telychko/assistant-js
 23) helpers and validators FOR(TO) https://github.com/mykola-telychko/assistant-js
-23) helpers and validators FOR(TO) https://github.com/mykola-telychko/assistant-js
 
-Обробка запитів: Middleware може виконувати такі завдання, як:
+-------------------------
+---- QUERIES -- start --
 
-Логування
-Парсинг тіла запиту
-Обробка помилок
-Кешування
-
-
-Queries:
 read region - [done]
 findRemove - on Name and on PhoneNum [done]
 create (add) - [in process]
+read / select - зробити два ці варіанти select key / select val /
+multiple delet/add (crud)
+key/val/group- country
 
 node .\index.js READ FROM 'BrownGarciaCarlos'
+
+---- QUERIES -- start --
+-------------------------
+
+
+---------------------
+---- STORAGE -- start
 
 conveyer is work:
 node .\index.js DELETE pyoxXoxo | node .\drawwork.js DELETE PWQVfovf
@@ -70,8 +64,11 @@ node .\index.js DELETE +817431482845
 UPDATE +818911381317 SET KeyKey +869646386980
 node .\index.js ADD lkdfglkjdfglklkd +869646382222
 
+---- STORAGE -- end
+---------------------
 
----- DB - MODULES -- start
+-----------------------------
+---- DB - MODULES -- start --
 
 FROM IMGS SCHEME CREATE PRESENTATION OR/AND SITE
 
@@ -97,18 +94,25 @@ Query for check - help and documentation  file (command alias in bash: kivi info
 
 Query for check - settings configs
 
-Trigers / Views
+Trigers / Views 
 
----- DB - MODULES -- end
+---- DB - MODULES -- end --
+---------------------------
 
+
+-----------------------------------
+---- DOCS, ARCHITECTURE -- start --
+
+9) describe livecycle query (fn->fn)
+readDbJSON -> parseTxt -> handeQuery ->
+
+10) Обробка запитів: Middleware може виконувати такі завдання, як:
+Логування, Парсинг тіла запиту, Обробка помилок, Кешування
+
+---- DOCS, ARCHITECTURE -- end ----
+-----------------------------------
 
 United States: +1 = ( if not +19 )
 Canada: +19
 United Kingdom: +44
 Australia: +61
-Germany: +49
-France: +33
-Japan: +81
-Brazil: +55
-India: +91
-China: +86
