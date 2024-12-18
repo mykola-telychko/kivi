@@ -65,7 +65,9 @@ node .\index.js ADD lkdfglkjdfglklkd +869646382222
 ---- STORAGE -- start
 
 db consistency and integrity analysis
-
+analyzer-doctor.js 
+create copy db or get object for analyze
+log after analysis - [analysis report write to db-health-log]
 
 ---- STORAGE -- end
 -----------------------

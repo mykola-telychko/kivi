@@ -161,7 +161,7 @@ function readDbJSON(callback) {
               // All-data -> apply query -> result obj 
               //  console.log('txt::', obj3Level.main);
               // console.log('txt::', usrItem);
-              console.log('txt::', TMPqryArr);
+              console.log('query-body::', TMPqryArr);
               let res = handeQuery(TMPqryArr, obj3Level)
               console.log('simpleSelectRegion::', res);
               // handeQuery(queryArray, obj3Level)
