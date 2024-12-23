@@ -1,7 +1,9 @@
-5) ПРІОРИТЕТ . видалити коменти і структурувати і описати що тут відбувається
-21) ПРІОРИТЕТ project assistant-js integrate instead helper.js (merge)
+ПРІОРИТЕТ . видалити коменти і структурувати і описати що тут відбувається
+ПРІОРИТЕТ project assistant-js integrate instead helper.js (merge)
+ПРІОРИТЕТ - data-generator is part other project 
+ПРІОРИТЕТ - problem with two config.js config.json (add .env/setting storage)
 
-1) Column1 Column2 - вносити значення які будуть іменами стовбчиків
+1) Column1 Column2 - enter values ​​that will be column names(now is key=name, value=telephone number)
 
 2) зробити обгортку для запису у файл (виности назви в файл конфігу для базу
 (окремий від основного конфіга))
@@ -14,14 +16,9 @@
 
 7) (check exists) розбиваня файлу на два массива окремих  - ключі і массиви (працюємо з обьектом бази а не на пряму з базою)
 
-8) updateObjectItem - зробити різні режими зміни kv
-
 10) наглядач - періодично запускається що перевірятіи integrity + писати
 всі помилки про запити або порушення в сховищах
 
-11) storage-upstorage ?
-
-12) allItem [main: listObj, usr: [], tel: [], ...]
 
 15) // join to update fns to one -- (search in file this)
 
@@ -49,6 +46,11 @@ multiple delet/add (crud)
 key/val/group- country
 
 node .\index.js READ FROM 'BrownGarciaCarlos'
+8) updateObjectItem - зробити різні режими зміни kv
+
+Query for check - help and documentation  file (command alias in bash: kivi info - check how)
+
+Query for check - settings configs
 
 conveyer is work:
 node .\index.js DELETE pyoxXoxo | node .\drawwork.js DELETE PWQVfovf
@@ -68,6 +70,8 @@ db consistency and integrity analysis
 analyzer-doctor.js 
 create copy db or get object for analyze
 log after analysis - [analysis report write to db-health-log]
+12) allItem [main: listObj, usr: [], tel: [], ...]
+11) storage-upstorage ?
 
 ---- STORAGE -- end
 -----------------------
@@ -94,10 +98,6 @@ LOCK_ORDER system (queue)
 log components(session-log/cache and buffer)error/slow query/query/
 
 1800-optimization-and-indexes
-
-Query for check - help and documentation  file (command alias in bash: kivi info - check how)
-
-Query for check - settings configs
 
 Trigers / Views 
 
