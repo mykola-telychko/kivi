@@ -84,6 +84,7 @@ insertToDB(dataForDb); // write to db
 
 
 // HELPERS -- START
+// unique from here https://github.com/mykola-telychko/assistant-js
 function uniqueNameArray(arr) {
     const uniqueArray = []; const seenValues = {};
 
@@ -116,6 +117,7 @@ function buildTable(keys, values){
 }
 
 // use for custom hash fn
+// add to assistant-js and use in DRG
 function generateUniqueNamesArray(count) {
     const uniqueNames = new Set();
 
@@ -143,6 +145,7 @@ function getRandElFromArray(arr) {
 }
 
 // draggingElements from arr1 to arr2 - specified qty 
+// unique from here https://github.com/mykola-telychko/assistant-js
 function draggingElements(sourceArray, targetArray, count) {
     if (!Array.isArray(sourceArray) || !Array.isArray(targetArray) || count < 0) {
       throw new Error('Параметри некоректні');
@@ -151,7 +154,7 @@ function draggingElements(sourceArray, targetArray, count) {
     const newTargetArray = [...targetArray, ...elementsToMove]; 
     return newTargetArray;
 }
-// HELPERS -- START
+// HELPERS -- END
 
 
 
