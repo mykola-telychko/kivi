@@ -3,6 +3,9 @@
 ПРІОРИТЕТ - data-generator is part other project 
 ПРІОРИТЕТ - problem with two config.js config.json (add .env/setting storage)
 
+- rewrite on TypeScript 
+- Work with db trow API ?
+
 1) Column1 Column2 - enter values ​​that will be column names(now is key=name, value=telephone number)
 
 2) зробити обгортку для запису у файл (виности назви в файл конфігу для базу
