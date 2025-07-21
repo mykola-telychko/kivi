@@ -1,4 +1,4 @@
-ПРІОРИТЕТ . видалити коменти і структурувати і описати що тут відбувається
+ПРІОРИТЕТ . видалити коменти і структурувати і описати що тут відбувається - схему створити (https://excalidraw.com/ , https://miro.com/login/)
 ПРІОРИТЕТ project assistant-js integrate instead helper.js (merge)
 ПРІОРИТЕТ - data-generator is part other project 
 ПРІОРИТЕТ - problem with two config.js config.json (add .env/setting storage)
